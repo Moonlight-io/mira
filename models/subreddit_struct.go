@@ -95,3 +95,18 @@ type SubredditData struct {
 	MobileBannerImage          string    `json:"mobile_banner_image"`
 	UserIsContributor          bool      `json:"user_is_contributor"`
 }
+
+type SubredditUserFlair struct {
+	AllowableContent    string             `json:"allowable_content"`
+	Text                string             `json:"text"`
+	TextColor           string             `json:"text_color"`
+	ModOnly             bool               `json:"mod_only"`
+	BackgroundColor     string             `json:"background_color"`
+	ID                  string             `json:"id"`
+	CSSClass            string             `json:"css_class"`
+	MaxEmojis           int64              `json:"max_emojis"`
+	RichText            []json.RawMessage  `json:"richtext"`
+	TextEditable        bool               `json:"text_editable"`
+	OverrideCSS         bool               `json:"override_css"`
+	Type                string             `json:"type"`
+}

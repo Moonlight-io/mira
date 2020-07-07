@@ -633,15 +633,22 @@ func (c *Reddit) UserFlair(user, text string) error {
 	return err
 }
 
-// UserFlairv2 gets the is of flair from a subreddit
-func (c *Reddit) UserFlairV2() error {
+// UserFlairv2 gets the list of flair from a subreddit
+func (c *Reddit) UserFlairV2() ([]models.SubredditUserFlair, error) {
+	res := make([]models.SubredditUserFlair, 0)
+
 	name, _, err := c.checkType("subreddit")
 	if err != nil {
-		return err
+		return res, err
 	}
+
 	target := RedditOauth + "/r/" + name + "/api/user_flair_v2"
-	_, err = c.MiraRequest("GET", target, nil)
-	return err
+	if ans, err := c.MiraRequest("GET", target, nil); err != nil {
+		return res, err
+	} else {
+		err = json.Unmarshal(ans, &res)
+		return res, err
+	}
 }
 
 // UserFlairWithID is the same as UserFlair but explicit redditor name
@@ -666,6 +673,22 @@ func (c *Reddit) SelectFlair(text string) error {
 		"link":     name,
 		"text":     text,
 		"api_type": "json",
+	})
+	return err
+}
+
+// SelectUserFlairTemplate sets a users flair to a template id
+func (c *Reddit) SelectUserFlairTemplate(user, id, text string) error {
+	name, _, err := c.checkType("subreddit")
+	if err != nil {
+		return err
+	}
+	target := RedditOauth + "/r/" + name + "/api/selectflair"
+	_, err = c.MiraRequest("POST", target, map[string]string{
+		"api_type":           "json",
+		"flair_template_id":  id,
+		"name":               user,
+		"text":               text,
 	})
 	return err
 }
@@ -728,3 +751,5 @@ func findRedditError(data []byte) error {
 	}
 	return nil
 }
+
+
