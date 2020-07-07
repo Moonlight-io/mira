@@ -1,5 +1,9 @@
 package models
 
+import (
+	"encoding/json"
+)
+
 type Subreddit struct {
 	Kind string        `json:"kind"`
 	Data SubredditData `json:"data"`
