@@ -10,8 +10,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/thecsw/mira/models"
+	"github.com/Moonlight-io/mira/models"
 )
 
 // Surely, Reddit API is always developing and I can't implement all endpoints.
@@ -631,6 +630,17 @@ func (c *Reddit) UserFlair(user, text string) error {
 		"text":     text,
 		"api_type": "json",
 	})
+	return err
+}
+
+// UserFlairv2 gets the is of flair from a subreddit
+func (c *Reddit) UserFlairV2() error {
+	name, _, err := c.checkType("subreddit")
+	if err != nil {
+		return err
+	}
+	target := RedditOauth + "/r/" + name + "/api/user_flair_v2"
+	_, err = c.MiraRequest("GET", target, nil)
 	return err
 }
 

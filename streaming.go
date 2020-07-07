@@ -3,7 +3,7 @@ package mira
 import (
 	"time"
 
-	"github.com/thecsw/mira/models"
+	"github.com/Moonlight-io/mira/models"
 )
 
 // StreamCommentReplies streams comment replies
